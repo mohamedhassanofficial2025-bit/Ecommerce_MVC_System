@@ -5,464 +5,124 @@
 }
 
 <div class="container py-5">
-
     <div class="row justify-content-center">
-
-        <div class="col-xl-9 col-lg-10">
-
+        <div class="col-xl-10 col-lg-12">
             <div class="product-card">
-
-                <!-- Left Side Image -->
+                
                 <div class="product-image-side">
-
                     <div class="product-badge">
                         <i class="bi bi-box-seam"></i>
-                        Product Preview
+                        <span>System Asset Inventory</span>
                     </div>
-
-                    <img src="~/Images/Products/@Model.ImageURL"
-                         alt="@Model.ProdTitle"
-                         class="product-image" />
-
+                    <img src="~/Images/Products/@Model.ImageURL" alt="@Model.ProdTitle" class="product-image" />
                 </div>
 
-                <!-- Right Side Content -->
-                <div class="product-content-side">
-
-                    <!-- Header -->
-                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
-
-                        <div>
-                            <span class="product-category">
-                                @Model.ProdCategory
-                            </span>
-
-                            <h1 class="product-title mt-3">
-                                @Model.ProdTitle
-                            </h1>
-
-                            <div class="product-meta">
-                                <span>
-                                    <i class="bi bi-hash"></i>
-                                    ID: @Model.ProdId
-                                </span>
-
-                                <span>
-                                    <i class="bi bi-calendar-event"></i>
-                                    Exp: @Model.ExpiryDate.ToShortDateString()
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="price-box">
-                            <span class="price-label">
-                                Price
-                            </span>
-
-                            <h2 class="price-value">
-                                $@Model.ProdPrice
-                            </h2>
-                        </div>
-
-                    </div>
-
-                    <!-- Description -->
-                    <div class="content-section">
-
-                        <h5 class="section-title">
-                            Description
-                        </h5>
-
-                        <p class="description-text">
-                            @Model.ProdDescription
-                        </p>
-
-                    </div>
-
-                    <!-- Stats -->
-                    <div class="stats-grid">
-
-                        <div class="stat-card">
-
-                            <div class="stat-icon bg-primary-subtle text-primary">
-                                <i class="bi bi-box"></i>
-                            </div>
-
+                <div class="product-content-side d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
                             <div>
-                                <small class="text-muted d-block">
-                                    Stock
-                                </small>
-
-                                <h5 class="mb-0 fw-bold">
-                                    @Model.ProdCount Units
-                                </h5>
+                                <span class="product-category text-uppercase tracking-wider">@Model.ProdCategory</span>
+                                <h1 class="product-title mt-3">@Model.ProdTitle</h1>
+                                <div class="product-meta">
+                                    <span><i class="bi bi-fingerprint"></i> ID Ref: @Model.ProdId</span>
+                                    <span><i class="bi bi-calendar-check"></i> Expiration: @Model.ExpiryDate.ToString("yyyy-MM-dd")</span>
+                                </div>
                             </div>
-
+                            <div class="price-box border border-light-subtle shadow-sm">
+                                <span class="price-label fw-semibold uppercase tracking-wider d-block">System Valuation</span>
+                                <h2 class="price-value">$@Model.ProdPrice.ToString("F2")</h2>
+                            </div>
                         </div>
 
-                        <div class="stat-card">
-
-                            <div class="stat-icon @(Model.ProdCount > 5 ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger")">
-                                <i class="bi bi-activity"></i>
-                            </div>
-
-                            <div>
-                                <small class="text-muted d-block">
-                                    Status
-                                </small>
-
-                                <h5 class="mb-0 fw-bold">
-                                    @(Model.ProdCount > 5 ? "Available" : "Low Stock")
-                                </h5>
-                            </div>
-
+                        <div class="content-section pt-2">
+                            <h5 class="section-title text-muted text-uppercase fs-7 tracking-wider">Product Synopsis</h5>
+                            <p class="description-text">@Model.ProdDescription</p>
                         </div>
 
+                        <div class="stats-grid">
+                            <div class="stat-card border border-light-subtle">
+                                <div class="stat-icon bg-primary-subtle text-primary">
+                                    <i class="bi bi-boxes"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block text-uppercase tracking-wider fs-8">Current Balance</small>
+                                    <h5 class="mb-0 fw-bold text-dark">@Model.ProdCount Counted Units</h5>
+                                </div>
+                            </div>
+                            <div class="stat-card border border-light-subtle">
+                                <div class="stat-icon @(Model.ProdCount > 5 ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger")">
+                                    <i class="bi bi-shield-check-fill"></i>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block text-uppercase tracking-wider fs-8">Safety Index Status</small>
+                                    <h5 class="mb-0 fw-bold @(Model.ProdCount > 5 ? "text-success" : "text-danger")">
+                                        @(Model.ProdCount > 5 ? "Sufficient Supply" : "Critically Low Stock")
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Actions -->
-                    <div class="product-actions">
-
-                        <a href="/Product/Index"
-                               class="btn btn-light btn-lg px-4">
-                            <i class="bi bi-arrow-left"></i>
-                            Back
+                    <div class="product-actions border-top border-light-subtle pt-4">
+                        <a href="/Product/Index" class="btn btn-premium-outline px-4">
+                            <i class="bi bi-arrow-left"></i> Back to Ledger
                         </a>
-
                         @if (User.IsInRole("Admin"))
                         {
-                            <div class="d-flex gap-3">
-
-                                <a href="/Product/Edit/@Model.ProdId"
-                                       class="btn btn-warning btn-lg px-4">
-
-                                    <i class="bi bi-pencil-square"></i>
-                                    Edit
-
+                            <div class="d-flex gap-2">
+                                <a href="/Product/Edit/@Model.ProdId" class="btn btn-premium-outline text-warning border-warning-subtle px-4">
+                                    <i class="bi bi-pencil-square"></i> Modify Context
                                 </a>
-
-                                <button class="btn btn-danger btn-lg px-4"
-                                        data-id="@Model.ProdId"
-                                        id="deleteBtn">
-
-                                    <i class="bi bi-trash"></i>
-                                    Delete
-
+                                <button class="btn btn-premium-danger px-4" id="deleteBtn" data-id="@Model.ProdId">
+                                    <i class="bi bi-trash3-fill"></i> De-allocate Asset
                                 </button>
-
                             </div>
                         }
-
                     </div>
-
                 </div>
 
             </div>
-
         </div>
-
     </div>
-
 </div>
 
-<!-- Delete Modal -->
-<div class="modal fade"
-     id="DeleteModal"
-     tabindex="-1"
-     data-bs-backdrop="static"
-     data-bs-keyboard="false">
-
+<div class="modal fade" id="DeleteModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-
-        <div class="modal-content border-0 rounded-4 shadow-lg">
-
+        <div class="modal-content border-0 rounded-4 shadow-premium">
             <div class="modal-body p-5 text-center">
-
-                <div class="delete-icon mb-4">
-                    <i class="bi bi-trash"></i>
+                <div class="delete-icon mb-4 shadow-sm">
+                    <i class="bi bi-trash3-fill text-danger"></i>
                 </div>
-
-                <h3 class="fw-bold mb-3">
-                    Delete Product?
-                </h3>
-
-                <p class="text-muted mb-4">
-                    This action cannot be undone.
-                </p>
-
-                <div class="d-flex justify-content-center gap-3">
-
-                    <button class="btn btn-light px-4"
-                            data-bs-dismiss="modal">
-
-                        Cancel
-
-                    </button>
-
-                    <button class="btn btn-danger px-4"
-                            id="confirmDelete">
-
-                        Delete
-
-                    </button>
-
+                <h3 class="fw-bold text-dark mb-2">De-allocate Asset?</h3>
+                <p class="text-muted px-3 mb-4">You are about to wipe this record out of the persistent storage infrastructure layers. This configuration step cannot be undone.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-premium-outline px-4" data-bs-dismiss="modal">Retain Asset</button>
+                    <button type="button" class="btn btn-danger px-4 text-white border-0" id="confirmDelete">Confirm Wipeout</button>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
-<style>
-
-    body {
-        background: #f4f7fb;
-    }
-
-    .product-card {
-        display: grid;
-        grid-template-columns: 420px 1fr;
-        background: white;
-        border-radius: 32px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
-    }
-
-    /* Left Side */
-
-    .product-image-side {
-        position: relative;
-        background: linear-gradient(135deg, #2563eb, #1e40af);
-        padding: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 650px;
-    }
-
-    .product-image {
-        width: 100%;
-        max-width: 320px;
-        height: 320px;
-        object-fit: cover;
-        border-radius: 28px;
-        background: white;
-        padding: 12px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        transition: 0.4s ease;
-    }
-
-        .product-image:hover {
-            transform: scale(1.04) rotate(-1deg);
-        }
-
-    .product-badge {
-        position: absolute;
-        top: 24px;
-        left: 24px;
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(10px);
-        color: white;
-        padding: 10px 18px;
-        border-radius: 999px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    /* Right Side */
-
-    .product-content-side {
-        padding: 3rem;
-    }
-
-    .product-category {
-        background: #eef2ff;
-        color: #4338ca;
-        padding: 8px 16px;
-        border-radius: 999px;
-        font-weight: 600;
-        font-size: 0.9rem;
-    }
-
-    .product-title {
-        font-size: 2.4rem;
-        font-weight: 800;
-        color: #0f172a;
-        line-height: 1.2;
-    }
-
-    .product-meta {
-        display: flex;
-        gap: 20px;
-        margin-top: 14px;
-        color: #64748b;
-        flex-wrap: wrap;
-    }
-
-        .product-meta span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-    .price-box {
-        background: #f8fafc;
-        padding: 18px 24px;
-        border-radius: 24px;
-        min-width: 180px;
-    }
-
-    .price-label {
-        color: #64748b;
-        font-size: 0.9rem;
-    }
-
-    .price-value {
-        font-size: 2rem;
-        font-weight: 800;
-        color: #16a34a;
-        margin: 0;
-    }
-
-    .content-section {
-        margin-top: 2rem;
-    }
-
-    .section-title {
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: #0f172a;
-    }
-
-    .description-text {
-        color: #475569;
-        line-height: 1.9;
-        font-size: 1rem;
-    }
-
-    /* Stats */
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-        margin-top: 2rem;
-    }
-
-    .stat-card {
-        background: #f8fafc;
-        border-radius: 24px;
-        padding: 1.4rem;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-    }
-
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-    }
-
-    /* Actions */
-
-    .product-actions {
-        margin-top: 3rem;
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        flex-wrap: wrap;
-    }
-
-    /* Delete Modal */
-
-    .delete-icon {
-        width: 90px;
-        height: 90px;
-        background: rgba(239,68,68,0.1);
-        color: #dc2626;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-    }
-
-    /* Responsive */
-
-    @@media(max-width: 992px) {
-
-        .product-card {
-            grid-template-columns: 1fr;
-        }
-
-        .product-image-side {
-            min-height: auto;
-            padding: 3rem 2rem;
-        }
-
-        .product-content-side {
-            padding: 2rem;
-        }
-
-        .product-title {
-            font-size: 2rem;
-        }
-
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .product-actions {
-            flex-direction: column;
-        }
-
-            .product-actions .btn,
-            .product-actions a {
-                width: 100%;
-            }
-    }
-
-</style>
 
 @section Scripts {
-
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteBtn = document.getElementById("deleteBtn");
+            const modalElement = document.getElementById("DeleteModal");
 
-        const deleteBtn = document.getElementById("deleteBtn");
-        const modalEl = document.getElementById("DeleteModal");
+            if (deleteBtn && modalElement) {
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+                let targetedAssetId = null;
 
-        let selectedId = null;
+                deleteBtn.addEventListener("click", function () {
+                    targetedAssetId = this.getAttribute("data-id");
+                    modalInstance.show();
+                });
 
-        const modalInstance =
-            bootstrap.Modal.getOrCreateInstance(modalEl);
-
-        if (deleteBtn) {
-
-            deleteBtn.addEventListener("click", function () {
-
-                selectedId = this.getAttribute("data-id");
-
-                modalInstance.show();
-            });
-        }
-
-        document
-            .getElementById("confirmDelete")
-            .addEventListener("click", function () {
-
-                window.location.href =
-                    `/Product/Delete/${selectedId}`;
-            });
-
+                document.getElementById("confirmDelete").addEventListener("click", function () {
+                    window.location.href = `/Product/Delete/${targetedAssetId}`;
+                });
+            }
+        });
     </script>
 }

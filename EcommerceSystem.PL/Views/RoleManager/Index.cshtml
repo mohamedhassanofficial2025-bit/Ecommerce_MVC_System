@@ -1,44 +1,150 @@
 ﻿@using EcommerceSystem.PL.ViewModels.RoleManager
 @model List<RoleManagerVM>
 
-<h2>Users Dashboard</h2>
+@{
+    ViewData["Title"] = "Identity Access Control Engine";
+}
 
-<table class="table table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>Email</th>
-            <th>Current Role</th>
-            <th>Change Role</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Email</td>
+<style>
+    .identity-header-wrapper {
+        margin-bottom: 32px;
+        animation: dashboardSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-                <td>
-                    <span class="badge 
-                        @(user.Role == "Admin" ? "bg-danger" :
-                          user.Role == "User"  ? "bg-primary" : "bg-secondary")">
-                        @user.Role
-                    </span>
-                </td>
+    .identity-table-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+        overflow: hidden;
+        animation: dashboardSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-                <td>
-                    <form asp-action="UpdateRole" method="post" class="d-flex gap-2">
-                        <input type="hidden" name="userId" value="@user.UserId" />
+    .role-table thead {
+        background-color: #0f172a;
+        color: #ffffff;
+    }
 
-                        <select name="role" class="form-select form-select-sm w-auto">
-                            <option value="Admin" selected="@(user.Role == "Admin")">Admin</option>
-                            <option value="User" selected="@(user.Role == "User")">User</option>
-                            <option value="None" selected="@(user.Role == "None")">No Role</option>
-                        </select>
+    .role-table th {
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 18px 24px;
+        border: none;
+    }
 
-                        <button type="submit" class="btn btn-sm btn-success">Save</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    .role-table td {
+        padding: 16px 24px;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .role-badge {
+        font-weight: 600;
+        font-size: 0.775rem;
+        padding: 6px 12px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .role-select-input {
+        min-width: 140px;
+        border-color: #e2e8f0;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+    }
+
+    .role-select-input:focus {
+        border-color: #94a3b8;
+        box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.1);
+    }
+
+    @@keyframes dashboardSlideIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="container-fluid px-4 py-4">
+    
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-sm-items-center gap-3 identity-header-wrapper">
+        <div>
+            <h1 class="h2 fw-bold text-dark m-0">Role Control Panel</h1>
+            <p class="text-muted m-0 fs-7">Audit user credentials, update access level boundaries, and assign system permissions dynamically.</p>
+        </div>
+        <div>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-premium-outline">
+                <i class="bi bi-house-door me-1"></i> Dashboard Overview
+            </a>
+        </div>
+    </div>
+
+    <div class="identity-table-card">
+        <div class="table-responsive">
+            <table class="table role-table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Account Email Reference</th>
+                        <th style="width: 220px;">Assigned Identity Claim</th>
+                        <th style="width: 340px;" class="text-end">Modify System Scope Authorization</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="bg-light text-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                        <i class="bi bi-person-fill fs-5"></i>
+                                    </div>
+                                    <span class="fw-semibold text-dark">@user.Email</span>
+                                </div>
+                            </td>
+
+                            <td>
+                                @if (string.Equals(user.Role, "Admin", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <span class="role-badge bg-danger-subtle text-danger border border-danger-subtle">
+                                        <i class="bi bi-shield-lock-fill"></i> System Administrator
+                                    </span>
+                                }
+                                else if (string.Equals(user.Role, "User", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <span class="role-badge bg-primary-subtle text-primary border border-primary-subtle">
+                                        <i class="bi bi-person-workspace"></i> Standard Operator
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="role-badge bg-secondary-subtle text-secondary border border-secondary-subtle">
+                                        <i class="bi bi-slash-circle"></i> Unassigned Guest
+                                    </span>
+                                }
+                            </td>
+
+                            <td class="text-end">
+                                <form asp-action="UpdateRole" asp-controller="RoleManager" asp-antiforgery="true" method="post" class="d-inline-flex gap-2 justify-content-end align-items-center text-end w-100 needs-validation">
+                                    <input type="hidden" name="userId" value="@user.UserId" />
+
+                                    <select name="role" class="form-select form-select-sm role-select-input">
+                                        <option value="Admin" selected="@(user.Role == "Admin")">Admin</option>
+                                        <option value="User" selected="@(user.Role == "User")">User</option>
+                                        <option value="None" selected="@(user.Role == "None")">No Role</option>
+                                    </select>
+
+                                    <button type="submit" class="btn btn-sm btn-premium-primary px-3 py-1 fs-7 fw-semibold">
+                                        <i class="bi bi-check-lg me-1"></i> Save
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

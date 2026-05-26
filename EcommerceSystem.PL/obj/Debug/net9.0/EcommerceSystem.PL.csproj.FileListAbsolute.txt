@@ -714,3 +714,4 @@ C:\Users\moha0\Desktop\FullStackDotNetData\ASP.NETcore\lab10Copy\EcommerceSystem
 C:\Users\moha0\Desktop\FullStackDotNetData\ASP.NETcore\lab10Copy\EcommerceSystem.PL\obj\Debug\net9.0\EcommerceSystem.PL.pdb
 C:\Users\moha0\Desktop\FullStackDotNetData\ASP.NETcore\lab10Copy\EcommerceSystem.PL\obj\Debug\net9.0\EcommerceSystem.PL.genruntimeconfig.cache
 C:\Users\moha0\Desktop\FullStackDotNetData\ASP.NETcore\lab10Copy\EcommerceSystem.PL\obj\Debug\net9.0\ref\EcommerceSystem.PL.dll
+C:\Users\moha0\Desktop\FullStackDotNetData\ASP.NETcore\lab10Copy\EcommerceSystem.PL\obj\Debug\net9.0\EcommerceSystem.PL.sourcelink.json

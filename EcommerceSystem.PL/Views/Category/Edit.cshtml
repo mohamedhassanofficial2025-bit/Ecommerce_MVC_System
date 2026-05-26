@@ -1,66 +1,55 @@
 ﻿@model CategoryEditVM
 
-<div class="container mt-5">
+@{
+    ViewData["Title"] = "Amend Taxonomy Record Configuration";
+}
 
+<div class="container py-5">
     <div class="row justify-content-center">
-
-        <div class="col-lg-5 col-md-7">
-
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-
-                <!-- Header -->
-                <div class="bg-primary text-white text-center py-4">
-                    <h4 class="mb-0 fw-bold">Create New Category</h4>
-                    <small class="opacity-75">Organize your products easily</small>
+        <div class="col-xl-6 col-lg-8 col-md-10">
+            
+            <div class="card border-0 shadow-premium rounded-4 overflow-hidden bg-white">
+                <div class="bg-dark text-white p-4 border-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-warning text-dark rounded-3 px-3 py-2 fw-bold">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold">Modify Category Scope</h4>
+                            <p class="text-muted text-white-50 m-0 fs-7">Commit tracking name structural changes across dependent assets mappings.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Body -->
-                <div class="card-body p-4">
+                <div class="card-body p-4 pt-5">
+                    <form asp-action="Edit" asp-controller="Category" asp-antiforgery="true" method="post" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                    @using (Html.BeginForm("Edit", "Category", FormMethod.Post))
-                    {
+                        <input asp-for="Id" type="hidden" />
+
                         <div class="mb-4">
-
-                            @Html.LabelFor(c => c.Name, new { @class = "form-label fw-semibold" })
-
-                            @Html.HiddenFor(c => c.Id)
-
-                            @Html.TextBoxFor(c => c.Name, new
-                            {
-                                @class = "form-control form-control-lg shadow-sm",
-                                placeholder = "e.g. Electronics, Clothing...",
-                                required = "required"
-                            })
-
-                            @Html.ValidationMessageFor(c => c.Name, "", new { @class = "text-danger" })
-
-                            <small class="text-muted">
-                                Choose a clear and unique category name
-                            </small>
-
+                            <label asp-for="Name" class="form-label fw-bold text-dark fs-7 text-uppercase">Adjusted Category Title String</label>
+                            <input asp-for="Name" class="form-control form-control-lg border-light-subtle fs-6 shadow-sm" placeholder="e.g. Modern Home Hardware" />
+                            <span asp-validation-for="Name" class="text-danger fs-7 mt-1 d-block"></span>
+                            <small class="text-muted d-block mt-2 fs-8">Updating this target modifies category metadata text for all linked products instantly.</small>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            @Html.ActionLink("Cancel", "Index", "Category", null, new
-                            {
-                                @class = "btn btn-outline-secondary px-4"
-                            })
-
-                            <button type="submit"
-                                    class="btn btn-primary px-4 shadow-sm">
-                                + Save Changes
+                        <div class="d-flex justify-content-between align-items-center border-top border-light-subtle pt-4 mt-5">
+                            <a asp-action="Index" asp-controller="Category" class="btn btn-premium-outline px-4">
+                                Dismiss Modifications
+                            </a>
+                            <button type="submit" class="btn btn-premium-primary px-4 fw-bold">
+                                <i class="bi bi-arrow-repeat me-1"></i> Save Changes
                             </button>
-
                         </div>
-                    }
-
+                    </form>
                 </div>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

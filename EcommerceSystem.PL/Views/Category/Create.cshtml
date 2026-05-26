@@ -1,64 +1,53 @@
-﻿
-@model CategoryCreateVM
+﻿@model CategoryCreateVM
 
-<div class="container mt-5">
+@{
+    ViewData["Title"] = "Provision Classification Node";
+}
 
+<div class="container py-5">
     <div class="row justify-content-center">
-
-        <div class="col-lg-5 col-md-7">
-
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-
-                <!-- Header -->
-                <div class="bg-primary text-white text-center py-4">
-                    <h4 class="mb-0 fw-bold">Create New Category</h4>
-                    <small class="opacity-75">Organize your products easily</small>
+        <div class="col-xl-6 col-lg-8 col-md-10">
+            
+            <div class="card border-0 shadow-premium rounded-4 overflow-hidden bg-white">
+                <div class="bg-success text-white p-4 border-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-white text-success rounded-3 px-3 py-2 fw-bold">
+                            <i class="bi bi-folder-plus"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold">Provision New Category</h4>
+                            <p class="text-white-50 m-0 fs-7">Publish a new catalog organization scope definition module.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Body -->
-                <div class="card-body p-4">
+                <div class="card-body p-4 pt-5">
+                    <form asp-action="Create" asp-controller="Category" asp-antiforgery="true" method="post" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                    @using (Html.BeginForm("Create", "Category", FormMethod.Post))
-                    {
                         <div class="mb-4">
-
-                            @Html.LabelFor(c => c.Name, new { @class = "form-label fw-semibold" })
-
-                            @Html.TextBoxFor(c => c.Name, new
-                            {
-                                @class = "form-control form-control-lg shadow-sm",
-                                placeholder = "e.g. Electronics, Clothing..."
-                            })
-
-                            @Html.ValidationMessageFor(c => c.Name, "", new { @class = "text-danger" })
-
-                            <small class="text-muted">
-                                Choose a clear and unique category name
-                            </small>
-
+                            <label asp-for="Name" class="form-label fw-bold text-dark fs-7 text-uppercase">Category Designation Title</label>
+                            <input asp-for="Name" class="form-control form-control-lg border-light-subtle fs-6 shadow-sm" placeholder="e.g. Electronics, Medical Hardware, Wearables..." />
+                            <span asp-validation-for="Name" class="text-danger fs-7 mt-1 d-block"></span>
+                            <small class="text-muted d-block mt-2 fs-8">Provide an individual nomenclature parameter distinct from existing inventory grouping nodes.</small>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            @Html.ActionLink("Cancel", "Index", "Category", null, new
-                            {
-                                @class = "btn btn-outline-secondary px-4"
-                            })
-
-                            <button type="submit"
-                                    class="btn btn-primary px-4 shadow-sm">
-                                + Create Category
+                        <div class="d-flex justify-content-between align-items-center border-top border-light-subtle pt-4 mt-5">
+                            <a asp-action="Index" asp-controller="Category" class="btn btn-premium-outline px-4">
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success text-white border-0 px-4 fw-bold shadow-sm">
+                                <i class="bi bi-check-circle-fill me-1"></i> Deploy Taxonomy Node
                             </button>
-
                         </div>
-                    }
+                    </form>
                 </div>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

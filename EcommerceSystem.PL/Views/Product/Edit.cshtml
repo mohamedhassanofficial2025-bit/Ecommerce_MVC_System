@@ -1,133 +1,108 @@
 ﻿@model ProductEditVM
 
-<div class="container mt-5">
+@{
+    ViewData["Title"] = "Modify Inventory Node";
+}
 
-    <div class="card shadow-lg border-0 rounded-4">
-        
-        <div class="card-header bg-primary text-white rounded-top-4">
-            <h4 class="mb-0">Edit Product</h4>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+            <div class="card shadow-premium border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-dark text-white p-4 border-0">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-warning text-dark rounded-3 px-3 py-2 fw-bold">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold">Edit Product Entry</h4>
+                            <p class="text-muted m-0 fs-7 text-white-50">Commit modifications down to the data architecture engine context.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 bg-white">
+                    <form asp-action="Edit" asp-controller="Product" enctype="multipart/form-data" method="post" class="needs-validation">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <input asp-for="ProdId" type="hidden" />
+                        <input asp-for="ImageURL" type="hidden" />
+
+                        <div class="mb-4">
+                            <label asp-for="ProdTitle" class="form-label fw-bold text-dark fs-7 text-uppercase">Product Designation Title</label>
+                            <input asp-for="ProdTitle" class="form-control form-control-lg border-light-subtle fs-6" placeholder="e.g. Workspace Mechanical Engine Matrix" />
+                            <span asp-validation-for="ProdTitle" class="text-danger fs-7 mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ProdDescription" class="form-label fw-bold text-dark fs-7 text-uppercase">Descriptive Context Documentation</label>
+                            <textarea asp-for="ProdDescription" class="form-control border-light-subtle fs-6" rows="4" placeholder="Describe layout parameters, specifications, and physical properties..."></textarea>
+                            <span asp-validation-for="ProdDescription" class="text-danger fs-7 mt-1 d-block"></span>
+                        </div>
+
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <label asp-for="ProdPrice" class="form-label fw-bold text-dark fs-7 text-uppercase">Unit Valuation Price ($)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-light-subtle text-muted">$</span>
+                                    <input asp-for="ProdPrice" type="number" step="0.01" class="form-control border-light-subtle" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="ProdPrice" class="text-danger fs-7 mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="ProdCount" class="form-label fw-bold text-dark fs-7 text-uppercase">Warehouse Stock Volume</label>
+                                <input asp-for="ProdCount" type="number" class="form-control border-light-subtle" placeholder="Quantity units" />
+                                <span asp-validation-for="ProdCount" class="text-danger fs-7 mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="ExpiryDate" class="form-label fw-bold text-dark fs-7 text-uppercase">Expiration Target Timeline</label>
+                                <input asp-for="ExpiryDate" type="date" class="form-control border-light-subtle" asp-format="{0:yyyy-MM-dd}" />
+                                <span asp-validation-for="ExpiryDate" class="text-danger fs-7 mt-1 d-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-light rounded-4 border border-light-subtle mb-4">
+                            <h6 class="fw-bold text-dark text-uppercase fs-7 mb-3">Asset Illustration Mapping</h6>
+                            <div class="row align-items-center g-3">
+                                <div class="col-sm-3 text-center text-sm-start">
+                                    <img src="~/Images/Products/@Model.ImageURL" alt="Current visual asset illustration tracking profile" class="shadow-sm border border-white bg-white p-1" style="width: 90px; height: 90px; object-fit: cover; border-radius: 12px;" />
+                                </div>
+                                <div class="col-sm-9">
+                                    <label asp-for="Image" class="form-label fw-semibold text-muted fs-7">Upload Alternative File Asset Descriptor</label>
+                                    <input asp-for="Image" type="file" class="form-control border-light-subtle bg-white" />
+                                    <span asp-validation-for="Image" class="text-danger fs-7 mt-1 d-block"></span>
+                                    <small class="text-muted fs-8 d-block mt-1">Leave empty to keep current picture parameters asset mapping records intact.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark fs-7 text-uppercase">Structural Catalog Categorization Scope</label>
+                            <select name="CategoryId" class="form-select border-light-subtle">
+                                <option value="@Model.CategoryId" selected>@Model.ProdCategory (Current Assignment)</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    if (category.Id != Model.CategoryId)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger fs-7 mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center border-top border-light-subtle pt-4 mt-5">
+                            <a asp-action="Index" asp-controller="Product" class="btn btn-premium-outline px-4">Cancel</a>
+                            <button type="submit" class="btn btn-premium-primary px-5 fw-bold">Commit Data Profiles Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <div class="card-body p-4">
-
-            <form asp-action="Edit" asp-controller="Product" enctype="multipart/form-data" method="post">
-                <div class="mb-3">
-                    <label asp-for="ProdId" class="form-label fw-semibold">Product ID</label>
-                    <input asp-for="ProdId" class="form-control" readonly hidden />
-                    <span asp-validation-for="ProdId" class="text-danger"></span>
-                </div>
-
-                <!-- Product Name -->
-                <div class="mb-3">
-                    <label asp-for="ProdTitle" class="form-label fw-semibold">Product Name</label>
-                    <input asp-for="ProdTitle"
-                           class="form-control"
-                           placeholder="Enter product name" />
-                    <span asp-validation-for="ProdTitle" class="text-danger"></span>
-
-                </div>
-
-                <!-- Description -->
-                <div class="mb-3">
-                    <label asp-for="ProdDescription" class="form-label fw-semibold">Description</label>
-                    <textarea asp-for="ProdDescription"
-                              class="form-control"
-                              rows="3"
-                              placeholder="Enter product description"></textarea>
-                    <span asp-validation-for="ProdDescription" class="text-danger"></span>
-                </div>
-
-                <!-- Price + Count -->
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="ProdPrice" class="form-label fw-semibold">Price</label>
-                        <input asp-for="ProdPrice" step="0.01"
-                               class="form-control"
-                               placeholder="0.00" />
-                        <span asp-validation-for="ProdPrice" class="text-danger"></span>
-
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="ProdCount" class="form-label fw-semibold">Stock</label>
-                        <input asp-for="ProdCount"
-                               class="form-control"
-                               placeholder="Quantity" />
-                        <span asp-validation-for="ProdCount" class="text-danger"></span>
-
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="ExpiryDate" class="form-label fw-semibold">Expiry Date</label>
-
-                        <input asp-for="ExpiryDate"
-                               type="date"
-                               class="form-control" />
-
-                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-                    </div>
-
-                </div>
-                <div>
-                    <div>
-                        <img src="~/Images/Products/@Model.ImageURL" alt="Alternate Text" class="img-fluid rounded-circle" />
-                        <input asp-for="ImageURL" type="text" class="form-control" value="@Model.ImageURL" hidden />
-                    </div>
-                    <div>
-                        <label asp-for="Image" class="form-label fw-semibold">Product Image</label>
-                        <input asp-for="Image" type="file" class="form-control" />
-                        <span asp-validation-for="Image" class="text-danger"></span>
-                    </div>
-                </div>
-                <!-- Category -->
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Category</label>
-                    <select name="CategoryId" class="form-select">
-                        <option value="@Model.CategoryId">@Model.ProdCategory</option>
-                        @foreach (var p in Model.Categories)
-                        {
-                            <option value="@p.Id">
-                                @p.Name
-                            </option>
-                        }
-                    </select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
-
-                </div>
-                
-                @* <div scope="row">
-                    <img src="~/Images/Products/@Model.ImageURL" class="img-thumbnail" style="width: 100px; height: 100px;" />
-                </div> 
-                <div class="col-md-6 mb-3">
-                    <label asp-for="Image" class="form-label fw-semibold">Image</label>
-
-                    <input asp-for="Image"
-                           type="file"
-                           class="form-control" />
-
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                </div> *@
-                <!-- Buttons -->
-                <div class="d-flex justify-content-between">
-
-                    <a asp-action="Index" asp-controller="Product" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-
-                    <button type="submit" class="btn btn-success px-4">
-                        + Update Product
-                    </button>
-                    
-                </div>
-
-            </form>
-
-        </div>
-
     </div>
-
 </div>
-@section Scripts
-{
+
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
