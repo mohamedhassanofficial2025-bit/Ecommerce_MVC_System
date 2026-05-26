@@ -1,0 +1,104 @@
+﻿@model ProductCreateVM
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-header bg-success text-white rounded-top-4">
+            <h4 class="mb-0">Add New Product</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form asp-action="Create" asp-controller="Product" enctype="multipart/form-data" method="post">
+                <!-- Product Name -->
+                <div class="mb-3">
+                    <label asp-for="ProdTitle" class="form-label fw-semibold">Product Name</label>
+                    <input asp-for="ProdTitle"
+                           class="form-control"
+                           placeholder="Enter product name" />
+                    <span asp-validation-for="ProdTitle" class="text-danger"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="ProdDescription" class="form-label fw-semibold">Description</label>
+                    <textarea asp-for="ProdDescription"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Enter product description"></textarea>
+                    <span asp-validation-for="ProdDescription" class="text-danger"></span>
+
+                </div>
+
+                <!-- Price + Count -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ProdPrice" class="form-label fw-semibold">Price</label>
+                        <input asp-for="ProdPrice" step="0.01"
+                               class="form-control"
+                               placeholder="0.00" />
+                        <span asp-validation-for="ProdPrice" class="text-danger"></span>
+                    
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ProdCount" class="form-label fw-semibold">Stock</label>
+                        <input asp-for="ProdCount"
+                               class="form-control"
+                               placeholder="Quantity" />
+                        <span asp-validation-for="ProdCount" class="text-danger"></span>
+
+                    </div>
+                    // Create Image
+                    <div>
+                        <label asp-for="Image" class="form-label fw-semibold">Product Image</label>
+                        <input asp-for="Image" type="file" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ExpiryDate" class="form-label fw-semibold">Expiry Date</label>
+
+                        <input asp-for="ExpiryDate"
+                               type="date"
+                               class="form-control" />
+
+                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Category</label>
+                    @* <select asp-items="Model.Categories" asp-for="CategoryId" class="form-select">
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span> *@
+                    <select name="CategoryId" class="form-select">
+                        @foreach (var p in Model.Categories)
+                        {
+                            <option value="@p.Id">
+                                @p.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+
+                    <a asp-action="Index" asp-controller="Product" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="btn btn-success px-4">
+                        + Add Product
+                    </button>
+                    
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

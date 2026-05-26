@@ -1,0 +1,44 @@
+﻿@using EcommerceSystem.PL.ViewModels.RoleManager
+@model List<RoleManagerVM>
+
+<h2>Users Dashboard</h2>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>Change Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+
+                <td>
+                    <span class="badge 
+                        @(user.Role == "Admin" ? "bg-danger" :
+                          user.Role == "User"  ? "bg-primary" : "bg-secondary")">
+                        @user.Role
+                    </span>
+                </td>
+
+                <td>
+                    <form asp-action="UpdateRole" method="post" class="d-flex gap-2">
+                        <input type="hidden" name="userId" value="@user.UserId" />
+
+                        <select name="role" class="form-select form-select-sm w-auto">
+                            <option value="Admin" selected="@(user.Role == "Admin")">Admin</option>
+                            <option value="User" selected="@(user.Role == "User")">User</option>
+                            <option value="None" selected="@(user.Role == "None")">No Role</option>
+                        </select>
+
+                        <button type="submit" class="btn btn-sm btn-success">Save</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

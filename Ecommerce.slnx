@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Common/">
+    <Project Path="EcommerceSystem/EcommerceSystem.csproj" Id="643c3bd4-f092-4183-a6ae-b47e62560962" />
+  </Folder>
+  <Project Path="EcommerceSystem.BLL/EcommerceSystem.BLL.csproj" />
+  <Project Path="EcommerceSystem.DAL/EcommerceSystem.DAL.csproj" />
+  <Project Path="EcommerceSystem.PL/EcommerceSystem.PL.csproj" />
+</Solution>

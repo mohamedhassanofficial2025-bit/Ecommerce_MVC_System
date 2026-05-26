@@ -1,0 +1,47 @@
+services:
+  ecommerce-web:
+    container_name: ecommerce-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      ecommerce-db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ApplyMigrationsOnStartup: "true"
+      ConnectionStrings__EcommerceConnection: "Server=ecommerce-db,1433;Database=ECommerceSystemV02;User Id=sa;Password=${MSSQL_SA_PASSWORD:-Ecommerce_Pass123!};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+      DefaultUsers__Admin__Email: "${DEFAULT_ADMIN_EMAIL:-admin@gmail.com}"
+      DefaultUsers__Admin__Password: "${DEFAULT_ADMIN_PASSWORD:-Admin123!}"
+      DefaultUsers__Admin__FirstName: "Admin"
+      DefaultUsers__Admin__LastName: "User"
+      DefaultUsers__User__Email: "${DEFAULT_USER_EMAIL:-user@gmail.com}"
+      DefaultUsers__User__Password: "${DEFAULT_USER_PASSWORD:-User123!}"
+      DefaultUsers__User__FirstName: "Regular"
+      DefaultUsers__User__LastName: "User"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  ecommerce-db:
+    container_name: ecommerce-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-Ecommerce_Pass123!}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - ecommerce-sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q \"SELECT 1\" || /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  ecommerce-sql-data:

@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @* @if(User.Identity.IsAuthenticated) *@
+    <a href="~/Category/index" class="btn btn-primary font-monospace">Categoies Dashboard</a>
+    <a href="~/Product/index" class="btn btn-danger font-monospace">Products Dashboard</a>
+    @* <a href="~/ProductCategory/CategoryProducts" class="btn btn-dark font-monospace">ProductsByCategory Dashboard</a> *@
+</div>
